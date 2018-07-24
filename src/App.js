@@ -13,12 +13,22 @@ const MyMapComponent = compose(
   withGoogleMap
 )((props) =>
   <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+    defaultZoom={13}
+    defaultCenter={{ lat: 44.426767, lng: 26.102538 }}
   >
-    {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} onClick={props.onMarkerClick} />}
+  {myLocations.map(loc => (
+    <Marker position={loc.location} onClick={props.onMarkerClick} defaultTitle={loc.title}/>
+      ))}
   </GoogleMap>
 )
+
+const myLocations=[
+  {title:"National Arena",location: {lat:44.437139, lng:26.152579}},
+  {title:"Alexandru Ioan Cuza Park",location: {lat:44.425512, lng:26.153533}},
+  {title:"Tineretului Park",location: {lat:44.407871, lng:26.105064}},
+  {title:"Izvor Park",location: {lat:44.431855, lng:26.087451}},
+  {title:"National Art Museum of Romania",location: {lat:44.439367, lng:26.095874}}
+]
 
 class App extends React.PureComponent {
   state = {
