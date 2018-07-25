@@ -19,7 +19,7 @@ h1 {
 }
 
 #show-search {
-  width: 6%;
+  width: 3%;
   font-size: 12px;
   position:absolute;
 }
@@ -38,4 +38,9 @@ h1 {
   width:20%;
   position:absolute;
   display: none;
+}
+#div1{
+  padding-left:20px;
+  padding-top:20px;
+  height:100%;
 }

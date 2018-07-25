@@ -4,8 +4,8 @@ class Burger extends Component {
   render(){
     return(
       <div id="burger">
-        <div>
-        HI
+        <div id="div1">
+        Search
         </div>
       </div>
     )

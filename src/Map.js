@@ -28,7 +28,7 @@ class MapComponent extends Component {
       burgerWindow.style.display = "none";
       burger.style.left = "0px";
     } else {
-      burgerWindow.setAttribute("style", "display:block; background:white; float:left; left:0px");
+      burgerWindow.setAttribute("style", "display:block; background:#38575b; float:left; left:0px");
       burger.setAttribute("style", "left:240px")
     }
   }
@@ -76,7 +76,11 @@ class MapComponent extends Component {
     return(
       <div>
         <div>
-          <input id="show-search" onClick={this.showBurger} type="button" value="Burger"/>
+          <a id="show-search" onClick={this.showBurger} type="button" value="Burger">
+            <svg className="hamburger-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
+            </svg>
+          </a>
         </div>
         <div>
           {initMap()}
