@@ -18,6 +18,21 @@ h1 {
   text-align: center;
 }
 
+li{
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+
+li:hover{
+  color:grey;
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+  padding:0px;
+}
+
 #show-search {
   width: 3%;
   font-size: 12px;
@@ -39,8 +54,19 @@ h1 {
   position:absolute;
   display: none;
 }
+
+svg:hover{
+  cursor: pointer;
+}
+
 #div1{
   padding-left:20px;
   padding-top:20px;
   height:100%;
+}
+#div2{
+  width:100%;
+}
+#search-input{
+  margin-top:20px;
 }

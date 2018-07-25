@@ -2,11 +2,9 @@ import React, { Component } from "react"
 import Burger from "./BurgerWindow"
 
  /*global google*/
-
  let map;
  let markers = [];
 
- //Default myLocations
  const myLocations=[
    {title:"National Arena",location: {lat:44.437139, lng:26.152579}},
    {title:"Carol Park",location: {lat:44.418666, lng:26.096516}},
@@ -15,11 +13,12 @@ import Burger from "./BurgerWindow"
    {title:"National Museum of Art of Romania",location: {lat:44.439367, lng:26.095874}},
    {title:"Bucharest Botanical Garden",location: {lat:44.437229, lng:26.062677}}
  ]
-class MapComponent extends Component {
-  state = {
-    showBurger:false
-  }
 
+ //Default myLocations
+class MapComponent extends Component {
+  // state = {
+  //   showBurger:false
+  // }
   showBurger = () => {
     let burgerWindow = document.getElementById('burger');
     let burger = document.getElementById('show-search');
@@ -63,16 +62,17 @@ class MapComponent extends Component {
       map.fitBounds(bounds);
     }
 
-      function populateInfoWindow(marker, infowindow) {
-        if (infowindow.marker !== marker) {
-          infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '</div>');
-          infowindow.open(map, marker);
-          infowindow.addListener('closeclick',function(){
-            infowindow.setMarker = null;
-          });
-        }
+    function populateInfoWindow(marker, infowindow) {
+      if (infowindow.marker !== marker) {
+        infowindow.marker = marker;
+        infowindow.setContent('<div>' + marker.title + '</div>');
+        infowindow.open(map, marker);
+        infowindow.addListener('closeclick',function(){
+          infowindow.setMarker = null;
+        });
       }
+    }
+
     return(
       <div>
         <div>
@@ -86,6 +86,8 @@ class MapComponent extends Component {
           {initMap()}
         </div>
           <Burger
+            myLocations={myLocations}
+            markers={markers}
           />
       </div>
 
