@@ -9,6 +9,8 @@ body {
 .container {
   height: 100%;
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 h1 {
@@ -16,6 +18,14 @@ h1 {
   font-size: 22px;
   margin: 0 0 10px 0;
   text-align: center;
+}
+
+h4 {
+  margin-bottom: 5px;
+}
+
+h5 {
+  margin-top: 5px;
 }
 
 li{
@@ -28,6 +38,11 @@ li:hover{
   cursor: pointer;
 }
 
+li:focus{
+  color:red;
+  outline:none;
+}
+
 ul {
   list-style-type: none;
   padding:0px;
@@ -37,7 +52,13 @@ ul {
   width: 3%;
   font-size: 12px;
   position:absolute;
+  float:right;
+  right:20px;
+  top:40px;
 }
+/* #show-search:focus{
+  background-color: red;
+} */
 
 #map {
   bottom:0px;
