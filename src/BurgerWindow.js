@@ -18,10 +18,22 @@ class Burger extends Component {
     } else {
       this.props.myLocations.forEach((loc,i)=> {
         if(query && this.props.myLocations.length && this.props.markers[i]){
-          this.props.markers[i].setvisible(true)
+          this.props.markers.setvisible(true)
         }
       })
     }
+  }
+
+  listClick= (event) =>{
+    this.props.markers.map(m=>{
+      if (m.title===event.target.valueOf().innerText){
+        m.setVisible(true);
+        document.getElementById('input').value=m.title;
+      } else {
+        m.setVisible(false)
+      }
+    })
+
   }
 
   render(){
@@ -32,13 +44,13 @@ class Burger extends Component {
             Search
           </div>
           <div id="search-input">
-            <input role="search" type="text" value={this.state.query} onChange={(event)=> this.updateQuery(event.target.value)} placeholder="Location filter..."/>
+            <input id="input" role="search" type="text" value={this.state.query} onChange={(event)=> this.updateQuery(event.target.value)} placeholder="Location filter..."/>
           </div>
           <ul>
           {this.state.query === "" && this.props.markers.map((m,i)=>
-            (<li key={i}>{m.title}</li>))}
+            (<li onClick={this.listClick} key={i}>{m.title}</li>))}
           {this.state.query.length >0 && this.props.markers.filter(m=>m.getVisible()).map((m,i)=>
-            (<li key={i}>{m.title}</li>))}
+            (<li onClick={this.listClick} key={i}>{m.title}</li>))}
           </ul>
         </div>
       </div>

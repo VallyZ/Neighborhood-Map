@@ -88,6 +88,7 @@ class MapComponent extends Component {
           <Burger
             myLocations={myLocations}
             markers={markers}
+            populateInfoWindow={this.populateInfoWindow}
           />
       </div>
 
