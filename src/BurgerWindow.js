@@ -56,8 +56,7 @@ class Burger extends Component {
             <input id="input" role="search" type="text" value={this.state.query} onChange={(event)=> this.updateQuery(event.target.value)} placeholder="Location filter..."/>
           </div>
           <ul>
-          {this.state.query === "" && this.props.markers.map((m,i)=>
-            (<li tabIndex="0" id="li" onClick={this.listClick} key={i}>{m.title}</li>))}
+
           {this.state.query.length >0 && this.props.markers.filter(m=>m.getVisible()).map((m,i)=>
             (<li tabIndex="0" id="li" onClick={this.listClick} key={i}>{m.title}</li>))}
           </ul>
