@@ -5,7 +5,7 @@ class App extends React.PureComponent {
 
   render() {
     return (
-      <div>
+      <div style={{height:"100%"}}>
         <MapComponent
         />
       </div>

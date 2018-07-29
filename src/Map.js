@@ -8,8 +8,8 @@ import Wiki from "./Wiki"
 
  const myLocations=[
    {title:"National Arena",location: {lat:44.437139, lng:26.152579},info:""},
-   {title:"Carol Park",location: {lat:44.418666, lng:26.096516},info:""},
    {title:"Tineretului Park",location: {lat:44.407871, lng:26.105064},info:""},
+   {title:"Carol Park",location: {lat:44.418666, lng:26.096516},info:""},
    {title:"Herăstrău Park",location: {lat:44.470201, lng:26.082753},info:""},
    {title:"National Museum of Art of Romania",location: {lat:44.439367, lng:26.095874},info:""},
    {title:"Bucharest Botanical Garden",location: {lat:44.437229, lng:26.062677},info:""}
@@ -19,6 +19,8 @@ import Wiki from "./Wiki"
 class MapComponent extends Component {
 
   componentDidMount(){
+
+    this.initMap()
 
     fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&prop=extracts&formatversion=2&exintro=&explaintext=&exsentences=1&titles=Arena%20Na%C8%9Bional%C4%83&origin=*')
     .then(results => results.json())
@@ -45,6 +47,57 @@ class MapComponent extends Component {
     .then(data => {var f = data.query.pages[0].extract;myLocations[5].info=f;console.log(myLocations[5].info)})
   }
 
+  initMap = () => {
+    const self = this
+    map = new google.maps.Map(document.getElementById('map-container'), {
+      center: { lat: 44.426767, lng: 26.102538 },
+      zoom: 13,
+      mapTypeControl: false
+    });
+
+    let largeInfowindow = new google.maps.InfoWindow();
+    let bounds = new google.maps.LatLngBounds();
+
+    for (let i = 0; i < myLocations.length; i++) {
+      let position = myLocations[i].location;
+      let title = myLocations[i].title;
+      let marker = new google.maps.Marker({
+        map: map,
+        position: position,
+        title: title,
+        animation: google.maps.Animation.DROP,
+        id: i
+      });
+      markers.push(marker);
+      google.maps.event.addListener(marker, 'click', (function (marker) {
+        return function () {
+              largeInfowindow.setContent(myLocations[i].info);
+              largeInfowindow.open(map, marker);
+        }
+      })(marker));
+
+      // marker.addListener('click', function(e) {
+      //   self.populateInfoWindow(this, largeInfowindow);
+      // });
+      // marker.addListener('click', function(e){
+      //   console.log(this.title)
+      // });
+      bounds.extend(markers[i].position);
+    }
+    map.fitBounds(bounds);
+  }
+
+  // populateInfoWindow = (marker, infowindow) => {
+  //   if (infowindow.marker !== marker) {
+  //     infowindow.marker = marker;
+  //     infowindow.setContent('<div>' + marker.title + '</div>');
+  //     infowindow.open(map, marker);
+  //     infowindow.addListener('closeclick',function(){
+  //       infowindow.setMarker = null;
+  //     });
+  //   }
+  // }
+
   showBurger = () => {
     let burgerWindow = document.getElementById('burger');
     let burger = document.getElementById('show-search');
@@ -58,70 +111,21 @@ class MapComponent extends Component {
     }
   }
 
-  onclick = (event) => {
-    console.log(event.target.value)
-  }
-
   render(){
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('root'), {
-        center: { lat: 44.426767, lng: 26.102538 },
-        zoom: 13,
-        mapTypeControl: false
-      });
-
-      let largeInfowindow = new google.maps.InfoWindow();
-      let bounds = new google.maps.LatLngBounds();
-
-      for (let i = 0; i < myLocations.length; i++) {
-        let position = myLocations[i].location;
-        let title = myLocations[i].title;
-        let marker = new google.maps.Marker({
-          map: map,
-          position: position,
-          title: title,
-          animation: google.maps.Animation.DROP,
-          id: i
-        });
-        markers.push(marker);
-        marker.addListener('click', function() {
-          populateInfoWindow(this, largeInfowindow);
-        });
-        bounds.extend(markers[i].position);
-      }
-      map.fitBounds(bounds);
-    }
-
-
-
-    function populateInfoWindow(marker, infowindow) {
-      if (infowindow.marker !== marker) {
-        infowindow.marker = marker;
-        infowindow.setContent('<div>' + myLocations[0].info + '</div>');
-        infowindow.open(map, marker);
-        infowindow.addListener('closeclick',function(){
-          infowindow.setMarker = null;
-        });
-      }
-    }
-
     return(
-      <div>
+      <div style={{height: "100%"}}>
         <div>
-          <a tabIndex="1" id="show-search" onClick={this.showBurger} type="button" value="Burger">
+          <a tabIndex="1" id="show-search" onClick={this.showBurger} type="button" value="Burger" style={{zIndex: 10000}}>
             <svg className="hamburger-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
             </svg>
           </a>
         </div>
-        <div>
-          {initMap()}
-        </div>
-          <Burger
-            myLocations={myLocations}
-            markers={markers}
-            populateInfoWindow={this.populateInfoWindow}
-          />
+        <div id="map-container" style={{height: "100%"}}/>
+        <Burger
+          myLocations={myLocations}
+          markers={markers}
+        />
       </div>
 
     )
