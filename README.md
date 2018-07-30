@@ -4,6 +4,11 @@
 - Run 'npm install'.
 - Run 'npm start'.
 
+- The service worker is implemented only in the production build, mention this fact and the steps to run the application in the production build.
+- npm run build
+- serve -s build
+- navigate to http://localhost:5000
+
 ## Details
 
 This project was build with the google maps apis, in React.

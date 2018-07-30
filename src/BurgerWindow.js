@@ -5,6 +5,14 @@ class Burger extends Component {
     query:''
   }
 
+  componentDidMount(){
+    if(this.state.query.length < 1){
+      //first enables the list of the locations
+      this.setState({query:" "})
+      this.setState({query:""})
+    }
+}
+
 //Search box functionality
   updateQuery=(query)=>{
     this.setState({query:query})
@@ -36,6 +44,7 @@ class Burger extends Component {
 
 //Make visible only the marker that it's title was clicked in the list
   listClick= (event) =>{
+    document.querySelector('.gmnoprint').click();
     this.props.markers.map((m,i)=>{
       if (m.title===event.target.valueOf().innerText){
         m.setVisible(true);
@@ -47,13 +56,6 @@ class Burger extends Component {
 
   }
   render(){
-    //If input.value.length is 0,markers won't make themselves visible.
-    //If value.length=0 and space is pressed, all become visible.
-    //Here is the only palce you cannot delete the first space
-    //Don't know other way to make this functionality, sorry!
-    if(this.state.query.length < 1){
-      this.setState({query:" "})
-    }
     return(
       <div id="burger">
         <div id="div1">
@@ -68,9 +70,12 @@ class Burger extends Component {
           <div id="search-input"tabIndex="-1">
             <input id="input" role="search" type="text" value={this.state.query} onChange={(event)=> this.updateQuery(event.target.value)} placeholder="Location filter..."/>
           </div>
-          <ul role="tablist">
+          <ul id='tabList' role="tablist">
+          {this.state.query.length === 0 && this.props.markers.map(m=>m.setVisible(true))}
+          {this.state.query.length === 0 && this.props.markers.map((m,i)=>
+            (<li role="tab" tabIndex="0" id={"li"+i} onClick={this.listClick} key={i}>{m.title}</li>))}
           {this.state.query.length >0 && this.props.markers.filter(m=>m.getVisible()).map((m,i)=>
-            (<li role="tab" tabIndex="0" id="li" onClick={this.listClick} key={i}>{m.title}</li>))}
+            (<li role="tab" tabIndex="0" id={"li"+i} onClick={this.listClick} key={i}>{m.title}</li>))}
           </ul>
           <button aria-label="Show all markers" id="b" onClick={this.b}>Show all </button>
         </div>

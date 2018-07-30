@@ -1,10 +1,9 @@
 import React, { Component } from "react"
 import Burger from "./BurgerWindow"
-
  /*global google*/
+
  let map;
  let markers = [];
- let allVenues;
  //Default myLocations
  const myLocations=[
    {title:"National Arena",location: {lat:44.437139, lng:26.152579},info:"",wiki:"https://en.wikipedia.org/wiki/Arena_Na%C8%9Bional%C4%83",img:''},
@@ -27,6 +26,7 @@ state = {
 
   //FETCH DATA FROM WIKIPEDIA API
 //Fetch preview info : National Arena
+
     fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&prop=extracts&formatversion=2&exintro=&explaintext=&exsentences=1&titles=Arena%20Na%C8%9Bional%C4%83&origin=*')
     .then(results => results.json())
     .then(data => {var a = data.query.pages[0].extract;myLocations[0].info=a})
@@ -37,6 +37,10 @@ state = {
     fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Arena_Na%C8%9Bional%C4%83&prop=pageimages&format=json&pithumbsize=200&formatversion=2&origin=*')
     .then(results => results.json())
     .then(data => {var h = data.query.pages[0].thumbnail.source;myLocations[0].img=h})
+    .catch(function(error) {
+      var z = 'There has been a problem with your fetch operation: '+ error.message;
+      myLocations[0].img=z;
+});
 
 //Fetch preview info : Tineretului Park
     fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&prop=extracts&formatversion=2&exintro=&explaintext=&exsentences=1&titles=Tineretului%20Park&origin=*')
@@ -49,6 +53,10 @@ state = {
     fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Tineretului%20Park&prop=pageimages&format=json&pithumbsize=200&formatversion=2&origin=*')
     .then(results => results.json())
     .then(data => {var i = data.query.pages[0].thumbnail.source;myLocations[1].img=i})
+    .catch(function(error) {
+      var z = 'There has been a problem with your fetch operation: '+ error.message;
+      myLocations[1].img=z;
+});
 
 //Fetch preview info : Carol Park
 fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&prop=extracts&formatversion=2&exintro=&explaintext=&exsentences=1&titles=Carol%20Park&origin=*')
@@ -61,6 +69,10 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&
 fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Carol%20Park&prop=pageimages&format=json&pithumbsize=200&formatversion=2&origin=*')
     .then(results => results.json())
     .then(data => {var j = data.query.pages[0].thumbnail.source;myLocations[2].img=j})
+    .catch(function(error) {
+      var z = 'There has been a problem with your fetch operation: '+ error.message;
+      myLocations[2].img=z;
+});
 
 //Fetch preview info : Herăstrău Park
 fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&prop=extracts&formatversion=2&exintro=&explaintext=&exsentences=1&titles=Herăstrău%20Park&origin=*')
@@ -73,6 +85,10 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&
 fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Herăstrău%20Park&prop=pageimages&format=json&pithumbsize=200&formatversion=2&origin=*')
     .then(results => results.json())
     .then(data => {var l = data.query.pages[0].thumbnail.source;myLocations[3].img=l})
+    .catch(function(error) {
+      var z = 'There has been a problem with your fetch operation: '+ error.message;
+      myLocations[3].img=z;
+});
 
 //Fetch preview info : National Museum of Art of Romania
 fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&prop=extracts&formatversion=2&exintro=&explaintext=&exsentences=1&titles=National%20Museum%20of%20Art%20of%20Romania&origin=*')
@@ -85,6 +101,10 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&
 fetch('https://en.wikipedia.org/w/api.php?action=query&titles=National%20Museum%20of%20Art%20of%20Romania&prop=pageimages&format=json&pithumbsize=200&formatversion=2&origin=*')
     .then(results => results.json())
     .then(data => {var m = data.query.pages[0].thumbnail.source;myLocations[4].img=m})
+    .catch(function(error) {
+      var z = 'There has been a problem with your fetch operation: '+ error.message;
+      myLocations[4].img=z;
+});
 
 //Fetch preview info : Bucharest Botanical Garden
 fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&prop=extracts&formatversion=2&exintro=&explaintext=&exsentences=1&titles=Bucharest%20Botanical%20Garden&origin=*')
@@ -97,11 +117,15 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&action=query&
 fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Bucharest%20Botanical%20Garden&prop=pageimages&format=json&pithumbsize=200&formatversion=2&origin=*')
     .then(results => results.json())
     .then(data => {var n = data.query.pages[0].thumbnail.source;myLocations[5].img=n})
+    .catch(function(error) {
+      var z = 'There has been a problem with your fetch operation: '+ error.message;
+      myLocations[5].img=z;
+});
 
   }
 //Initialize the map
   initMap = () => {
-    const self = this
+     /*global google*/
     map = new google.maps.Map(document.getElementById('map-container'), {
       center: { lat: 44.426767, lng: 26.102538 },
       zoom: 13,
@@ -143,6 +167,7 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Bucharest%20Botani
     map.fitBounds(bounds);
   }
 
+
 //Show/Hide the search DIV
   showBurger = () => {
     let burgerWindow = document.getElementById('burger');
@@ -164,7 +189,7 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Bucharest%20Botani
       <div style={{height: "100%"}}>
         <div>
           <button aria-label="menu" id="show-search" onClick={this.showBurger} type="button" style={{zIndex: 10000}}>
-            <svg tabIndex="1" id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg tabIndex="0" id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
             </svg>
           </button>
