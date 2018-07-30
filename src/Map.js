@@ -142,23 +142,6 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Bucharest%20Botani
 //Fit all markers in the view
     map.fitBounds(bounds);
   }
-            //in case I need it later
-        // marker.addListener('click', function(e) {
-        //   self.populateInfoWindow(this, largeInfowindow);
-        // });
-        // marker.addListener('click', function(e){
-        //   console.log(this.title)
-        // });
-        // populateInfoWindow = (marker, infowindow) => {
-        //   if (infowindow.marker !== marker) {
-        //     infowindow.marker = marker;
-        //     infowindow.setContent('<div>' + marker.title + '</div>');
-        //     infowindow.open(map, marker);
-        //     infowindow.addListener('closeclick',function(){
-        //       infowindow.setMarker = null;
-        //     });
-        //   }
-        // }
 
 //Show/Hide the search DIV
   showBurger = () => {
