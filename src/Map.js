@@ -157,7 +157,7 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Bucharest%20Botani
       google.maps.event.addListener(marker, 'click', (function (marker) {
         return function () {
               largeInfowindow.setContent(
-                '<div id="infoWindow">'+
+                '<div tabIndex=0 id="infoWindow">'+
                   '<img width="100%" src="'+myLocations[i].img+'" alt="'+myLocations[i].title+'">'+
                   '<div style="margin-bottom:10px;">'+myLocations[i].info+'</div>'+
                   '<a href="'+ myLocations[i].wiki+'">Read more on Wikipedia</a>'+
