@@ -4,7 +4,11 @@ import React, { Component } from 'react'
 class Burger extends Component {
   state = {
     query:'',
-    infoWindow:new google.maps.InfoWindow()
+    infoWindow:new google.maps.InfoWindow(),
+    img: "",
+    title:"",
+    wiki: "",
+    info: ""
   }
 
   componentDidMount(){
@@ -46,22 +50,36 @@ class Burger extends Component {
 //Make visible only the marker that it's title was clicked in the list
 populateInfoWindow = (marker, infowindow) => {
     infowindow.marker = marker
-    infowindow.setContent(`<h3>${marker.title}</h3><h4>user likes it</h4>`)
+    infowindow.setContent(
+      '<div id="infoWindow">'+
+        '<img width="100%" src="'+this.state.img+'" alt="'+this.state.title+'">'+
+        '<div style="margin-bottom:10px;">'+this.state.info+'</div>'+
+        '<a href="'+ this.state.wiki+'">Read more on Wikipedia</a>'+
+      '</div>'
+    )
     infowindow.open(this.map, marker)
-    // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function () {
       infowindow.marker = null
     })
-  }
-
+}
 
   listClick= (event) =>{
     const that = this
     const {infoWindow} = this.state
+// Content for infoWindow
     const displayInfowindow = (event) => {
-    const markers = this.props.markers
-    const index = markers.findIndex(m=> m.title===event.target.valueOf().innerText)
-    that.populateInfoWindow(markers[index],infoWindow)
+      this.props.markers.map(m=>{
+        if(m.title===event.target.valueOf().innerText){
+          const mark=this.props.markers.findIndex(ms=>ms.title===m.title)
+          this.setState({title : this.props.myLocations[mark].title })
+          this.setState({info : this.props.myLocations[mark].info })
+          this.setState({img : this.props.myLocations[mark].img })
+          this.setState({wiki : this.props.myLocations[mark].wiki })
+        }
+      })
+      const markers = this.props.markers
+      const index = markers.findIndex(m=> m.title===event.target.valueOf().innerText)
+      that.populateInfoWindow(markers[index],infoWindow)
   }
     document.querySelector('#tabList').addEventListener('click', function (event) {
       if (event.target && event.target.nodeName === "LI") {
@@ -78,8 +96,8 @@ populateInfoWindow = (marker, infowindow) => {
         m.setVisible(false);
       }
     })
-
   }
+
   render(){
     return(
       <div id="burger">

@@ -17,12 +17,9 @@ import Burger from "./BurgerWindow"
 
 class MapComponent extends Component {
 
-state = {
-  locations:[]
-}
-gm_authFailure(){
-    window.alert("Google Maps error!")
-}
+  gm_authFailure(){
+      window.alert("Google Maps error!")
+  }
 
   componentDidMount(){
 // callback, Initialize the map
