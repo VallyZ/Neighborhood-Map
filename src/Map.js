@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Burger from "./BurgerWindow"
+
  /*global google*/
 
  let map;
@@ -19,10 +20,15 @@ class MapComponent extends Component {
 state = {
   locations:[]
 }
+gm_authFailure(){
+    window.alert("Google Maps error!")
+}
 
   componentDidMount(){
 // callback, Initialize the map
     this.initMap()
+
+    window.gm_authFailure = this.gm_authFailure;
 
   //FETCH DATA FROM WIKIPEDIA API
 //Fetch preview info : National Arena
@@ -147,6 +153,10 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Bucharest%20Botani
       });
       markers.push(marker);
 //Set infoWindow
+      marker.addListener('click',function(){
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function(){marker.setAnimation(null); },1000)
+      })
       google.maps.event.addListener(marker, 'click', (function (marker) {
         return function () {
               largeInfowindow.setContent(
@@ -198,6 +208,7 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Bucharest%20Botani
         <Burger
           myLocations={myLocations}
           markers={markers}
+          largeInfowindow={this.largeInfowindow}
         />
       </div>
 

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+/*global google*/
 
 class Burger extends Component {
   state = {
-    query:''
+    query:'',
+    infoWindow:new google.maps.InfoWindow()
   }
 
   componentDidMount(){
@@ -41,13 +43,36 @@ class Burger extends Component {
       }
     }
   }
-
 //Make visible only the marker that it's title was clicked in the list
+populateInfoWindow = (marker, infowindow) => {
+    infowindow.marker = marker
+    infowindow.setContent(`<h3>${marker.title}</h3><h4>user likes it</h4>`)
+    infowindow.open(this.map, marker)
+    // Make sure the marker property is cleared if the infowindow is closed.
+    infowindow.addListener('closeclick', function () {
+      infowindow.marker = null
+    })
+  }
+
+
   listClick= (event) =>{
-    document.querySelector('.gmnoprint').click();
+    const that = this
+    const {infoWindow} = this.state
+    const displayInfowindow = (event) => {
+    const markers = this.props.markers
+    const index = markers.findIndex(m=> m.title===event.target.valueOf().innerText)
+    that.populateInfoWindow(markers[index],infoWindow)
+  }
+    document.querySelector('#tabList').addEventListener('click', function (event) {
+      if (event.target && event.target.nodeName === "LI") {
+        displayInfowindow(event)
+      }
+    })
     this.props.markers.map((m,i)=>{
       if (m.title===event.target.valueOf().innerText){
         m.setVisible(true);
+        m.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function(){m.setAnimation(null); },1000)
         document.getElementById('input').value=this.state.query;
       } else {
         m.setVisible(false);
