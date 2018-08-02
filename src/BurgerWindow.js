@@ -17,16 +17,28 @@ class Burger extends Component {
       this.setState({query:" "})
       this.setState({query:""})
     }
-
-    document.querySelector('#tabList').addEventListener('click', function (event) {
-      if (event.target && event.target.nodeName === "LI") {
-        this.displayInfowindow
-      }
-    })
-
+    document.querySelector('#tabList').addEventListener('click', this.displayInfowindow)
 }
 
 //Search box functionality
+
+  displayInfowindow = (event) =>{
+    this.props.markers.map(m=>{
+      if(m.title===event.target.valueOf().innerText){
+        const mark=this.props.markers.findIndex(ms=>ms.title===m.title)
+        this.setState({title : this.props.myLocations[mark].title })
+        this.setState({info : this.props.myLocations[mark].info })
+        this.setState({img : this.props.myLocations[mark].img })
+        this.setState({wiki : this.props.myLocations[mark].wiki })
+      }
+    })
+      const {infoWindow} = this.state
+      this.displayInfowindow
+      const markers = this.props.markers
+      const index = markers.findIndex(m=> m.title===event.target.valueOf().innerText)
+      this.populateInfoWindow(markers[index],infoWindow)
+  }
+
   updateQuery=(query)=>{
     this.setState({query:query})
     if (query) {
@@ -70,39 +82,8 @@ populateInfoWindow = (marker, infowindow) => {
     })
 }
 
-displayInfowindow = (event) => {
-  const {infoWindow} = this.state
-  this.props.markers.map(m=>{
-    if(m.title===event.target.valueOf().innerText){
-      const mark=this.props.markers.findIndex(ms=>ms.title===m.title)
-      this.setState({title : this.props.myLocations[mark].title })
-      this.setState({info : this.props.myLocations[mark].info })
-      this.setState({img : this.props.myLocations[mark].img })
-      this.setState({wiki : this.props.myLocations[mark].wiki })
-    }
-  })
-  const markers = this.props.markers
-  const index = markers.findIndex(m=> m.title===event.target.valueOf().innerText)
-  this.populateInfoWindow(markers[index],infoWindow)
-}
 
   listClick= (event) =>{
-// Content for infoWindow
-  //   const displayInfowindow = (event) => {
-  //     this.props.markers.map(m=>{
-  //       if(m.title===event.target.valueOf().innerText){
-  //         const mark=this.props.markers.findIndex(ms=>ms.title===m.title)
-  //         this.setState({title : this.props.myLocations[mark].title })
-  //         this.setState({info : this.props.myLocations[mark].info })
-  //         this.setState({img : this.props.myLocations[mark].img })
-  //         this.setState({wiki : this.props.myLocations[mark].wiki })
-  //       }
-  //     })
-  //     const markers = this.props.markers
-  //     const index = markers.findIndex(m=> m.title===event.target.valueOf().innerText)
-  //     that.populateInfoWindow(markers[index],infoWindow)
-  // }
-
     this.props.markers.map((m,i)=>{
       if (m.title===event.target.valueOf().innerText){
         m.setVisible(true);
