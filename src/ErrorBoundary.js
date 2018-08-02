@@ -8,14 +8,11 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-  // Catch errors in any components below and re-render with error message
-  this.setState({
-    error: error,
-    errorInfo: errorInfo
-  })
-  // You can also log error messages to an error reporting service here
-}
-
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    })
+  }
 
   render() {
     if (this.state.errorInfo) {
@@ -30,9 +27,10 @@ class ErrorBoundary extends Component {
         </div>
       );
     }
-    // Normally, just render children
     return this.props.children;
   }
   }
 
 export default ErrorBoundary
+
+//thanks Janne Peippo for refferencing this technique
