@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-/*global google*/
+/* global google */
 
 class Burger extends Component {
   state = {

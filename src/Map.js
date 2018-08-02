@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Burger from "./BurgerWindow"
 
- /*global google*/
+ /* global google */
 
  let map;
  let markers = [];
@@ -23,9 +23,9 @@ class MapComponent extends Component {
 
   componentDidMount(){
 // callback, Initialize the map
-    this.initMap()
-
     window.gm_authFailure = this.gm_authFailure;
+
+    this.initMap()
 
   //FETCH DATA FROM WIKIPEDIA API
 //Fetch preview info : National Arena
@@ -128,7 +128,7 @@ fetch('https://en.wikipedia.org/w/api.php?action=query&titles=Bucharest%20Botani
   }
 //Initialize the map
   initMap = () => {
-     /*global google*/
+     /* global google */
     map = new google.maps.Map(document.getElementById('map-container'), {
       center: { lat: 44.426767, lng: 26.102538 },
       zoom: 13,
